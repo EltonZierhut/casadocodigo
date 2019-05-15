@@ -1,3 +1,5 @@
+const db = require("../../config/database");
+
 module.exports = (app) => {
     app.get('/',function(request, response){
         response.send(`
@@ -13,28 +15,14 @@ module.exports = (app) => {
     });
     
     app.get('/livros',function(request, response){
-        //Habilitado com a importação do Marko
-        response.marko(
-            require('../views/livros/lista/lista.marko'),
-            {
-                livros: [
-                    {
-                        id: 1,
-                        titulo: 'Fundamentos de Nota'
-                    },
-                    {
-                        id: 2,
-                        titulo: 'Node avançado'
-                    },
-                    {
-                        id: 3,
-                        titulo: 'Teste de Livro'
-                    }
-                ]
-            }
-        );
-        /*response.send(
-            
-        );*/
+        db.all('select * from livros',function(erro,resultado){
+            //Habilitado com a importação do Marko
+            response.marko(
+                require('../views/livros/lista/lista.marko'),
+                {
+                    livros: resultado   
+                }
+            );    
+        });
     });
 }
