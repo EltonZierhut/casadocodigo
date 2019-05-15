@@ -36,6 +36,14 @@ module.exports = (app) => {
                 .catch(erro => console.log(erro));
     });
 
+    app.get('/livros/buscarPorId/:idLivro', function(req, resp){
+        const livroDao = new LivroDao(db);
+
+        livroDao.buscarPorId(req.params.idLivro)
+                .then(livro => resp.send(livro))
+                .catch(erro => resp.send(erro));
+    });
+
     app.get('/livros/form', function(requisicao, response){
         response.marko(require('../views/livros/form/form.marko'))
     });

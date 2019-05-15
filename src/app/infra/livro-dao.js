@@ -38,6 +38,21 @@ class LivroDao{
             resolve();
         });
     }
+
+    buscarPorId(idLivro){
+        return new Promise((resolve, reject) =>{
+            this._db.get(`
+            SELECT * FROM livros WHERE id = ?
+            `,[
+                idLivro
+            ]
+            , (err, livro) =>{
+                if (err) return reject("Não foi possível encontraro livro "+idLivro+"!");
+
+                return resolve(livro);
+            });
+        });
+    }
 }
 
 module.exports = LivroDao;
