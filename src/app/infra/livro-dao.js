@@ -38,6 +38,41 @@ class LivroDao{
             resolve();
         });
     }
+    atualizar(livro){
+        return new Promise((resolve, reject) =>{
+            this._db.run(`
+            UPDATE livros set
+            titulo = ?,
+            preco = ?,
+            descricao = ?
+            where id = ?
+            `,[
+                livro.titulo,
+                livro.preco,
+                livro.descricao,
+                livro.id
+            ], function(err){
+                return reject('Não foi possível atualizar ao banc de dados');
+            });
+            return resolve();
+        });
+    }
+
+    remover(id){
+        return new Promise((resolve, reject) => {
+            this._db.run(`
+            delete from livross where id = ?
+            `,
+                id
+            , function(err){
+                if (err){
+                    return reject('Erro ao excluir livro');
+                }
+                
+                return resolve();
+            });
+        });
+    }
 
     buscarPorId(idLivro){
         return new Promise((resolve, reject) =>{

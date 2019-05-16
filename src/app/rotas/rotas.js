@@ -44,6 +44,22 @@ module.exports = (app) => {
                 .catch(erro => resp.send(erro));
     });
 
+    app.delete('/livros/:idLivro', function(req, resp){
+        const livroDao = new LivroDao(db);
+
+        livroDao.remover(req.params.idLivro)
+                .then(() => resp.status(200).end())
+                .catch(erro => console.log(erro));
+    });
+
+    app.post('/livros/atualizar', function(req, resp){
+        const livroDao = new LivroDao(bd);
+
+        livroDao.atualizar(req.body)
+                .then(resp.send('atualizado'))
+                .catch(erro => resp.send(erro));
+    });
+
     app.get('/livros/form', function(requisicao, response){
         response.marko(require('../views/livros/form/form.marko'))
     });
