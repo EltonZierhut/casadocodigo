@@ -36,12 +36,19 @@ module.exports = (app) => {
                 .catch(erro => console.log(erro));
     });
 
-    app.get('/livros/buscarPorId/:idLivro', function(req, resp){
+    app.get('/livros/form/:idLivro', function(req, resp){
         const livroDao = new LivroDao(db);
 
         livroDao.buscarPorId(req.params.idLivro)
-                .then(livro => resp.send(livro))
-                .catch(erro => resp.send(erro));
+                .then(livro => {
+                    resp.marko(
+                        require('../views/livros/form/form.marko'),
+                        {
+                            livro : livro
+                        }
+                    )
+                })
+                .catch(erro => console.log(erro));
     });
 
     app.delete('/livros/:idLivro', function(req, resp){
@@ -52,15 +59,15 @@ module.exports = (app) => {
                 .catch(erro => console.log(erro));
     });
 
-    app.post('/livros/atualizar', function(req, resp){
-        const livroDao = new LivroDao(bd);
+    app.put('/livros', function(req, resp){
+        const livroDao = new LivroDao(db);
 
         livroDao.atualizar(req.body)
-                .then(resp.send('atualizado'))
-                .catch(erro => resp.send(erro));
+                .then(resp.redirect('/livros'))
+                .catch(erro => console.log(erro));
     });
 
     app.get('/livros/form', function(requisicao, response){
-        response.marko(require('../views/livros/form/form.marko'))
+        response.marko(require('../views/livros/form/form.marko'), {livro : {}})
     });
 }

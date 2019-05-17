@@ -32,7 +32,7 @@ class LivroDao{
                 livro.descricao
             ], function (err){
                 console.log(err);
-                return reject('Não foi possível adicionar ao banc de dados');
+                return reject('Não foi possível adicionar ao banc de dados. '+err);
             });
 
             resolve();
@@ -59,14 +59,15 @@ class LivroDao{
     }
 
     remover(id){
+        console.log(id);
         return new Promise((resolve, reject) => {
             this._db.run(`
-            delete from livross where id = ?
+            delete from livros where id = ?
             `,
                 id
             , function(err){
                 if (err){
-                    return reject('Erro ao excluir livro');
+                    return reject('Erro ao excluir livro. '+err);
                 }
                 
                 return resolve();
@@ -82,7 +83,7 @@ class LivroDao{
                 idLivro
             ]
             , (err, livro) =>{
-                if (err) return reject("Não foi possível encontraro livro "+idLivro+"!");
+                if (err) return reject("Não foi possível encontraro livro "+idLivro+"!"+err);
 
                 return resolve(livro);
             });
