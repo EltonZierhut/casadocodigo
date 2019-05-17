@@ -10,6 +10,7 @@ var marko_template = module.exports = require("marko/src/html").t(__filename),
     marko_loadTag = marko_helpers.t,
     component_globals_tag = marko_loadTag(require("marko/src/components/taglib/component-globals-tag")),
     marko_escapeXmlAttr = marko_helpers.xa,
+    marko_escapeXml = marko_helpers.x,
     init_components_tag = marko_loadTag(require("marko/src/components/taglib/init-components-tag")),
     await_reorderer_tag = marko_loadTag(require("marko/src/taglibs/async/await-reorderer-tag"));
 
@@ -32,9 +33,9 @@ function render(input, out, __component, component, state) {
     marko_escapeXmlAttr(data.livro.titulo) +
     "\" placeholder=\"coloque o titulo\"></div><div><label for=\"preco\">Preço:</label><input type=\"text\" id=\"preco\" name=\"preco\" value=\"" +
     marko_escapeXmlAttr(data.livro.preco) +
-    "\" placeholder=\"150.25\"></div><div><label for=\"descricao\">Descrição:</label><textarea cols=\"20\" rows=\"10\" id=\"descricao\" name=\"descricao\" value=\"" +
-    marko_escapeXmlAttr(data.livro.descricao) +
-    "\" placeholder=\"fale sobre o livro\"></textarea></div><input type=\"submit\" value=\"Salvar\"></form>");
+    "\" placeholder=\"150.25\"></div><div><label for=\"descricao\">Descrição:</label><textarea cols=\"20\" rows=\"10\" id=\"descricao\" name=\"descricao\" placeholder=\"fale sobre o livro\">" +
+    marko_escapeXml(data.livro.descricao) +
+    "</textarea></div><input type=\"submit\" value=\"Salvar\"></form>");
 
   init_components_tag({}, out);
 
